@@ -1,18 +1,23 @@
+import Possession from "./Possession.js";
+
 class Patrimoine {
-  constructor(possesseur, date, possessions) {
+  constructor(possesseur, possessions, dateInitiale) {
     this.possesseur  = possesseur;
-    this.date = date
     this.possessions = possessions; // [Possession, Possession, ...]
+    this.dateInitiale = dateInitiale;
   }
-  getValeur(date) {
+
+  getValeurAt(date) {
     return 
   }
+
   addPossession(possession) {
     this.possessions.push(possession);
   }
+  
   removePossession(possession) {
     this.possessions = this.possessions.filter(p => p.libelle !== possession.libelle);
   }
 }
 
-module.exports = Patrimoine;
+export default Patrimoine;

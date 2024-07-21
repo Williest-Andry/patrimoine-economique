@@ -1,7 +1,12 @@
 class Personne {
-  constructor(nom) {
+  constructor(nom, prenom, dateNaissance, sexe) {
     this.nom = nom;
+    this.prenom = prenom;
+    this.dateNaissance = dateNaissance;
+    this.sexe = sexe;
   }
+
+
 }
 
-module.exports = Person;
+export default Personne;
