@@ -1,8 +1,8 @@
 import Possession from "./Possession";
 
 class TrainDeVie extends Possession{
-    constructor(possesseur, valeur, libelle, dateAchat, compteDebit){
-        super(possesseur, valeur, libelle, dateAchat);
+    constructor(possesseur, valeur, libelle, compteDebit){
+        super(possesseur, valeur, libelle);
         this.compteDebit = compteDebit;
     }
 
