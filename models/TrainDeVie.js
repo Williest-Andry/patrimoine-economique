@@ -1,4 +1,4 @@
-import Possession from "./Possession";
+import Possession from "./Possession.js";
 
 class TrainDeVie extends Possession{
     constructor(possesseur, valeur, libelle, compteDebit){
@@ -22,3 +22,5 @@ class TrainDeVie extends Possession{
         this.compteDebit = newCompteDebit;
     }
 }
+
+export default TrainDeVie;

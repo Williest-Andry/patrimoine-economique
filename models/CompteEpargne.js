@@ -7,3 +7,5 @@ class CompteEpargne extends Compte {
         this.tauxInteret = tauxInteret;
     }
 }
+
+export default CompteEpargne;

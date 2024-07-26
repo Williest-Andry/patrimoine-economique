@@ -1,4 +1,4 @@
-import Possession from "./Possession";
+import Possession from "./Possession.js";
 
 class Compte extends Possession{
     constructor(possesseur, numero, valeur, libelle){
@@ -6,3 +6,5 @@ class Compte extends Possession{
         this.numero = numero;
     }
 }
+
+export default Compte;

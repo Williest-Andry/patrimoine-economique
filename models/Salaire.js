@@ -1,9 +1,10 @@
 import Argent from './Argent.js';
 import TrainDeVie from './TrainDeVie.js';
+import CompteCourant from './CompteCourant.js';
 
 class Salaire extends Argent{
-    constructor(possesseur, valeur, libelle, compte, dateAjout) {
-        super(possesseur, valeur, libelle, compte, dateAjout);
+    constructor(possesseur, valeur, libelle, compte) {
+        super(possesseur, valeur, libelle, compte);
     }
 
     getPossesseur(){
@@ -28,5 +29,11 @@ class Salaire extends Argent{
     }
 }
 
-let monSalaire = new Salaire("Williest", "5000", "compte courant", "2024-07-22");
-console.log(monSalaire);
+let monSalaire = new Salaire("Williest", "5000", "compte courant");
+let monCompteCourant = new CompteCourant("Williest", 1,  "10000", "mon compte courant", "8000");
+let loyer = new TrainDeVie("Williest", "1000", "mon loyer", monCompteCourant);
+console.log(monSalaire.getValeur);
+
+
+
+export default Salaire;
