@@ -1,5 +1,5 @@
-class Personne {
-  constructor(nom, prenom, dateNaissance, sexe) {
+export default class Personne {
+  constructor(nom) {
     this.nom = nom;
     this.prenom = prenom;
     this.dateNaissance = dateNaissance;
@@ -8,5 +8,3 @@ class Personne {
 
 
 }
-
-export default Personne;
