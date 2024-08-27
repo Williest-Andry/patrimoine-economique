@@ -1,14 +1,19 @@
+import { Link } from "react-router-dom";
 export default function Root() {
     return (
         <>
             <header>
                 <ul>
-                    <li>Menu Patrimoine</li>
-                    <li>Menu Possessions</li>
+                    <li>
+                        <Link to={`/`}>Menu Patrimoine</Link>
+                    </li>
+                    <li>
+                        <Link to={'/possession'}>Menu Possession</Link>
+                    </li>
                 </ul>
             </header>
 
-            
+
         </>
     )
 }
