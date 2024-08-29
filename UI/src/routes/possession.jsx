@@ -3,6 +3,7 @@ import Possession from "../../../models/possessions/Possession.js";
 import Flux from '../../../models/possessions/Flux.js'
 import { Link } from "react-router-dom";
 
+
 export default function App() {
     const [listePossessions, setListePossessions] = useState([]);
     const [valeurSelecteur, setValeurSelecteur] = useState("");
@@ -93,6 +94,18 @@ export default function App() {
         actuelPatrimoine();
     }, [instancesPossession]);
 
+
+    const handleClose = (libelle) => {
+        fetch(`https://localhost:3000/${libelle}/close`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => console.log("Possession fermée avec succés", data))
+        .catch(e => console.log("ERREUR LORS DE LA FERMETURE DE LA POSSESSION", e))
+    }
     return (
         <>
             <h1>LISTE DES POSSESSIONS</h1>
