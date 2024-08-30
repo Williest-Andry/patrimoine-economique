@@ -28,7 +28,7 @@ possession.post('/', async (req, res) => {
         const newData = {
             "possesseur": { "nom": "John Doe" },
             "libelle": req.body.libelle,
-            "valeur": req.body.valeur,
+            "valeurInitiale": req.body.valeurInitiale,
             "dateDebut": req.body.dateDebut,
             "dateFin": null,
             "tauxAmortissement": req.body.tauxAmortissement

@@ -137,10 +137,11 @@ export default function App() {
                 </thead>
 
                 <tbody>
+                    {console.log("YaYa babe",listePossessions)}
                     {listePossessions.map((possession, key) => (
                         <tr key={key}>
                             <td className="table-dark">{possession.libelle}</td>
-                            <td className="table-dark">{possession.valeur}</td>
+                            <td className="table-dark">{possession.valeurInitiale}</td>
                             <td className="table-dark">{possession.dateDebut.toLocaleDateString()}</td>
                             <td className="table-dark">{possession.dateFin ? possession.dateFin.toLocaleDateString() : "Non définie"}</td>
                             <td className="table-dark">{possession.tauxAmortissement || "Non définie"}</td>

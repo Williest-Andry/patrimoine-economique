@@ -85,7 +85,7 @@
             "nom": "John Doe"
           },
           "libelle": "NOVAIIIINAA",
-          "valeurInitiale": "0",
+          "valeur": "0",
           "dateDebut": "2024-08-28",
           "dateFin": "2024-08-30T04:57:46.366Z",
           "tauxAmortissement": "0"
@@ -95,40 +95,10 @@
             "nom": "John Doe"
           },
           "libelle": "nouveau poss",
-          "valeurInitiale": "1000",
+          "valeur": "1000",
           "dateDebut": "2024-08-28",
           "dateFin": null,
           "tauxAmortissement": "10"
-        },
-        {
-          "possesseur": {
-            "nom": "John Doe"
-          },
-          "libelle": "enganie",
-          "valeurInitiale": "7",
-          "dateDebut": "2024-08-28",
-          "dateFin": null,
-          "tauxAmortissement": "0"
-        },
-        {
-          "possesseur": {
-            "nom": "John Doe"
-          },
-          "libelle": "mandehana amzay",
-          "valeurInitiale": "0",
-          "dateDebut": "2024-08-28",
-          "dateFin": null,
-          "tauxAmortissement": "0"
-        },
-        {
-          "possesseur": {
-            "nom": "John Doe"
-          },
-          "libelle": "yess",
-          "valeurInitiale": "999",
-          "dateDebut": "2024-08-28",
-          "dateFin": null,
-          "tauxAmortissement": "10000"
         }
       ]
     }

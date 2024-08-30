@@ -5,7 +5,7 @@ export default function Create() {
     const [notSend, setNotSend] = useState(false);
     const [data, setData] = useState({
         "libelle": "",
-        "valeur": "",
+        "valeurInitiale": "",
         "dateDebut": "",
         "tauxAmortissement": ""
     })
@@ -32,7 +32,7 @@ export default function Create() {
             .then(data => {
                 console.log('Possession créée:', data);
                 setIsSend(true);
-                setData({ "libelle": '', "valeur": '', "dateDebut": '', "tauxAmortissement": '' });
+                setData({ "libelle": '', "valeurInitiale": '', "dateDebut": '', "tauxAmortissement": '' });
             })
             .catch(error => {
                 console.error('ERREUR LORS DE LA SOUMISSION DE DONNEES :  ', error);
@@ -66,8 +66,8 @@ export default function Create() {
                 <br />
                 <input
                     type="text"
-                    name="valeur"
-                    value={data.valeur}
+                    name="valeurInitiale"
+                    value={data.valeurInitiale}
                     onChange={handleChange}
                 />
                 <br /><br />
