@@ -7,6 +7,7 @@ import ErrorPage from "./routes/error-page.jsx";
 import App from "./routes/possession.jsx";
 import Create from "./routes/createPossession.jsx";
 import Update from "./routes/updatePossession.jsx";
+import Patrimoine from "./routes/patrimoine.jsx";
 // function Header(){
 
 // }
@@ -45,6 +46,12 @@ const router = createBrowserRouter([
     element: <Update/>,
     errorElement: <ErrorPage/>
   },
+
+  {
+    path: "/patrimoine",
+    element: <Patrimoine/>,
+    errorElement: <ErrorPage/>
+  }
 ]);
 
 export default router;

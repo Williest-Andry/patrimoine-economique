@@ -45,7 +45,6 @@ export default function Update() {
             .then(response => response.json())
             .then(data => {
                 console.log('Données mises à jour avec succès :', data);
-                navigate('/'); // Redirige vers la page d'accueil
             })
             .catch(error => console.error('Erreur lors de la mise à jour :', error));
     };

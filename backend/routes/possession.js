@@ -8,12 +8,9 @@ const dataFilePath = '../data/data.json'; // Chemin vers votre fichier JSON
 possession.get('/', async (req, res) => {
     try {
         const data = await fs.readFile(dataFilePath, 'utf-8');
-        console.log('Contenu du fichier JSON :', data); // Ajoutez ceci pour déboguer
         const jsonData = JSON.parse(data);
-        console.log('Structure du JSON :', jsonData); // Affichez la structure du JSON pour comprendre
-
-        // Accédez aux possessions via la clé jsonData
-        const possessions = jsonData.jsonData || [];
+        // Accédez aux possessions dans le bon emplacement du JSON
+        const possessions = jsonData[1]?.data?.possessions || [];
         res.json(possessions);
     } catch (err) {
         console.error("ERREUR LORS DE LA RECUPERATION DE DONNEES !!", err);
@@ -23,11 +20,10 @@ possession.get('/', async (req, res) => {
 
 // Route POST pour ajouter une nouvelle possession
 possession.post('/', async (req, res) => {
-    console.log('Données reçues dans POST :', req.body);
     try {
         const data = await fs.readFile(dataFilePath, 'utf-8');
         const jsonData = JSON.parse(data);
-        const possessions = jsonData.jsonData || [];
+        const possessions = jsonData[1]?.data?.possessions || [];
 
         const newData = {
             "possesseur": { "nom": "John Doe" },
@@ -40,8 +36,9 @@ possession.post('/', async (req, res) => {
 
         possessions.push(newData);
 
-        // Sauvegardez les données mises à jour dans le fichier JSON
-        await fs.writeFile(dataFilePath, JSON.stringify({ jsonData: possessions }, null, 2));
+        // Met à jour la structure JSON existante avec les nouvelles possessions
+        jsonData[1].data.possessions = possessions;
+        await fs.writeFile(dataFilePath, JSON.stringify(jsonData, null, 2));
         res.send(newData);
     } catch (err) {
         console.error("ERREUR LORS DE L'INSERTION DE DONNEES !!", err);
@@ -49,16 +46,13 @@ possession.post('/', async (req, res) => {
     }
 });
 
-// Routes PUT pour mettre à jour et fermer les possessions
-// Adaptez les routes PUT comme suit
-
 // Route PUT pour mettre à jour une possession
 possession.put('/:libelle', async (req, res) => {
     const libelle = req.params.libelle;
     try {
         const data = await fs.readFile(dataFilePath, 'utf-8');
         const jsonData = JSON.parse(data);
-        const possessions = jsonData.jsonData || [];
+        const possessions = jsonData[1]?.data?.possessions || [];
 
         const libelleIndex = possessions.findIndex(possession => possession.libelle === libelle);
 
@@ -66,7 +60,8 @@ possession.put('/:libelle', async (req, res) => {
             possessions[libelleIndex].libelle = req.body.libelle || possessions[libelleIndex].libelle;
             possessions[libelleIndex].dateFin = req.body.dateFin || possessions[libelleIndex].dateFin;
 
-            await fs.writeFile(dataFilePath, JSON.stringify({ jsonData: possessions }, null, 2));
+            jsonData[1].data.possessions = possessions;
+            await fs.writeFile(dataFilePath, JSON.stringify(jsonData, null, 2));
             res.send(possessions[libelleIndex]);
         } else {
             res.status(404).send('POSSESSION NON TROUVEE !!');
@@ -83,14 +78,15 @@ possession.put('/:libelle/close', async (req, res) => {
     try {
         const data = await fs.readFile(dataFilePath, 'utf-8');
         const jsonData = JSON.parse(data);
-        const possessions = jsonData.jsonData || [];
+        const possessions = jsonData[1]?.data?.possessions || [];
 
         const libelleIndex = possessions.findIndex(possession => possession.libelle === libelle);
 
         if (libelleIndex !== -1) {
             possessions[libelleIndex].dateFin = new Date().toISOString();
 
-            await fs.writeFile(dataFilePath, JSON.stringify({ jsonData: possessions }, null, 2));
+            jsonData[1].data.possessions = possessions;
+            await fs.writeFile(dataFilePath, JSON.stringify(jsonData, null, 2));
             res.send(possessions[libelleIndex]);
         } else {
             res.status(404).send('POSSESSION NON TROUVEE !!');

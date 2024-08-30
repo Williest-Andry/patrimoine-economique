@@ -5,7 +5,7 @@ export default function Root() {
             <header>
                 <ul>
                     <li>
-                        <Link to={`/`}>Menu Patrimoine</Link>
+                        <Link to={`/patrimoine`}>Menu Patrimoine</Link>
                     </li>
                     <li>
                         <Link to={'/possession'}>Menu Possession</Link>

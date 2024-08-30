@@ -84,7 +84,7 @@ export default function App() {
     // Calcule la valeur actuelle totale du patrimoine
     function actuelPatrimoine() {
         const patrimoineActuel = instancesPossession.reduce((precedent, actuel) => {
-            return precedent + actuel;
+            return  precedent + actuel;
         }, 0);
         setValeurPatrimoine(patrimoineActuel);
     }
@@ -96,16 +96,23 @@ export default function App() {
 
 
     const handleClose = (libelle) => {
-        fetch(`https://localhost:3000/${libelle}/close`, {
+        fetch(`http://localhost:3000/possession/${libelle}/close`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
         })
-        .then(response => response.json())
-        .then(data => console.log("Possession fermée avec succés", data))
-        .catch(e => console.log("ERREUR LORS DE LA FERMETURE DE LA POSSESSION", e))
-    }
+        .then(data => {
+            console.log("Possession fermée avec succès", data);
+            // Recharge la liste des possessions après la fermeture
+            fetch('http://localhost:3000/possession/')
+                .then(response => response.json())
+                .then(data => instancier(data))
+                .catch(error => console.error('Erreur lors de la récupération des données :', error));
+        })
+        .catch(e => console.log(e.message));
+    };
+    
     return (
         <>
             <h1>LISTE DES POSSESSIONS</h1>
@@ -148,6 +155,10 @@ export default function App() {
                     ))}
                 </tbody>
             </table>
+
+            <br></br>
+            <br></br>
+            <h1>Valeur actuelle du patrimoine : {valeurPatrimoine}</h1>
 
             <br></br>
             <br></br>
