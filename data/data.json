@@ -129,6 +129,36 @@
           "dateDebut": "2024-08-28",
           "dateFin": null,
           "tauxAmortissement": "10000"
+        },
+        {
+          "possesseur": {
+            "nom": "John Doe"
+          },
+          "libelle": "manaona",
+          "valeurInitiale": "0",
+          "dateDebut": "2024-08-28",
+          "dateFin": null,
+          "tauxAmortissement": "0"
+        },
+        {
+          "possesseur": {
+            "nom": "John Doe"
+          },
+          "libelle": "mety ve",
+          "valeurInitiale": "0",
+          "dateDebut": "2024-08-28",
+          "dateFin": null,
+          "tauxAmortissement": "10"
+        },
+        {
+          "possesseur": {
+            "nom": "John Doe"
+          },
+          "libelle": "mety kay ka ",
+          "valeurInitiale": "0",
+          "dateDebut": "2024-08-28",
+          "dateFin": null,
+          "tauxAmortissement": "0"
         }
       ]
     }

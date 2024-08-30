@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import Possession from "../../../models/possessions/Possession.js";
 import Flux from '../../../models/possessions/Flux.js'
 import { Link } from "react-router-dom";
+import Root from "./root.jsx";
 
 
-export default function App() {
+export default function Possessions() {
     const [listePossessions, setListePossessions] = useState([]);
     const [valeurSelecteur, setValeurSelecteur] = useState("");
     const [valeurPatrimoine, setValeurPatrimoine] = useState(0);
@@ -12,7 +13,6 @@ export default function App() {
     const [dateNonNulle, setDateNonNulle] = useState(false);
     const [instancesPossession, setInstancesPossession] = useState([]);
 
-    // Affiche la valeur du patrimoine à une date donnée
     const afficherValeur = () => {
         if (valeurSelecteur === "") {
             setDateNonNulle(true);
@@ -27,7 +27,6 @@ export default function App() {
         }
     };
 
-    // Instancie les objets Possession et Flux
     function instancier(possessionsData) {
         const possessionsFinales = possessionsData.map((data) => {
             if (data.valeurConstante) {
@@ -54,25 +53,21 @@ export default function App() {
         setListePossessions(possessionsFinales);
     }
 
-    // Fetch les données depuis le serveur
     useEffect(() => {
         fetch('http://localhost:3000/possession/')
             .then(response => response.json())
             .then(data => {
-                console.log("Données reçues du serveur : ", data);
-                instancier(data); // Appel de la fonction d'instanciation
+                instancier(data); 
             })
             .catch(error => console.error('ERREUR LORS DU FETCH :', error));
     }, []);
 
-    // Met à jour les instances de possession après avoir reçu les possessions
     useEffect(() => {
         if (listePossessions.length > 0) {
             getActualValue();
         }
     }, [listePossessions]);
 
-    // Obtient la valeur actuelle des possessions
     function getActualValue() {
         const today = new Date();
         const resultats = listePossessions.map(possession =>
@@ -81,7 +76,6 @@ export default function App() {
         setInstancesPossession(resultats);
     }
 
-    // Calcule la valeur actuelle totale du patrimoine
     function actuelPatrimoine() {
         const patrimoineActuel = instancesPossession.reduce((precedent, actuel) => {
             return  precedent + actuel;
@@ -89,7 +83,6 @@ export default function App() {
         setValeurPatrimoine(patrimoineActuel);
     }
 
-    // Met à jour la valeur du patrimoine actuel
     useEffect(() => {
         actuelPatrimoine();
     }, [instancesPossession]);
@@ -104,7 +97,6 @@ export default function App() {
         })
         .then(data => {
             console.log("Possession fermée avec succès", data);
-            // Recharge la liste des possessions après la fermeture
             fetch('http://localhost:3000/possession/')
                 .then(response => response.json())
                 .then(data => instancier(data))
@@ -115,6 +107,9 @@ export default function App() {
     
     return (
         <>
+            <Root/>
+
+            <section className="possessions">
             <h1>LISTE DES POSSESSIONS</h1>
             <br></br>
             <Link to={`/possession/create`}>
@@ -141,11 +136,11 @@ export default function App() {
                     {listePossessions.map((possession, key) => (
                         <tr key={key}>
                             <td className="table-dark">{possession.libelle}</td>
-                            <td className="table-dark">{possession.valeurInitiale}</td>
+                            <td className="table-dark">{possession.valeurInitiale + " Ariary"}</td>
                             <td className="table-dark">{possession.dateDebut.toLocaleDateString()}</td>
                             <td className="table-dark">{possession.dateFin ? possession.dateFin.toLocaleDateString() : "Non définie"}</td>
                             <td className="table-dark">{possession.tauxAmortissement || "Non définie"}</td>
-                            <td className="table-dark">{instancesPossession[key]}</td>
+                            <td className="table-dark">{instancesPossession[key] + " Ariary"    }</td>
                             <td>
                                 <Link to={`/possession/${possession.libelle}/update`}>
                                     <button className="btn btn-primary">Editer</button>
@@ -158,28 +153,9 @@ export default function App() {
             </table>
 
             <br></br>
-            <br></br>
-            <h1>Valeur actuelle du patrimoine : {valeurPatrimoine}</h1>
-
-            <br></br>
-            <br></br>
-            <Link to={`/`}>
-                <button className="btn btn-primary">Revenir à la page d'accueil</button>
-            </Link>
-
-            {/* <p>La valeur du patrimoine actuel est : {valeurPatrimoine}</p>
-
-            <input
-                type="date"
-                value={valeurSelecteur}
-                onChange={(e) => setValeurSelecteur(e.target.value)}
-            />
-            <button type="button" className="btn btn-primary" onClick={afficherValeur}>Valider</button>
-
-            <p>
-                La valeur du patrimoine à cette date donnée est :{" "}
-                {valeurSelectionne || (dateNonNulle && <h1>VEUILLEZ CHOISIR UNE DATE</h1>)}
-            </p> */}
+    
+            <h1>Valeur actuelle du patrimoine : {valeurPatrimoine + " Ariary"}</h1>
+            </section>
         </>
     );
 }

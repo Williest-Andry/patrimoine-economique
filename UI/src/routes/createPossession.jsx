@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Root from "./root";
+import '../App.css';
 
 export default function Create() {
     const [isSend, setIsSend] = useState(false);
@@ -35,7 +37,6 @@ export default function Create() {
                 setData({ "libelle": '', "valeurInitiale": '', "dateDebut": '', "tauxAmortissement": '' });
             })
             .catch(error => {
-                console.error('ERREUR LORS DE LA SOUMISSION DE DONNEES :  ', error);
                 setNotSend(true)
             });
 
@@ -48,42 +49,45 @@ export default function Create() {
 
     return (
         <>
+            <Root/>
+
+            <section className="possessions">
             <h1>AJOUTER UNE POSSESSION</h1>
             <br></br>
             <br></br>
             <form onSubmit={handleSubmit}>
                 <label>Libelle :</label>
-                <br />
+                
                 <input
                     type="text"
                     name="libelle"
                     value={data.libelle}
                     onChange={handleChange}
                 />
-                <br /><br />
+               
 
-                <label>Valeur :</label>
-                <br />
+                <label>Valeur (en Ariary) :</label>
+               
                 <input
                     type="text"
                     name="valeurInitiale"
                     value={data.valeurInitiale}
                     onChange={handleChange}
                 />
-                <br /><br />
+                
 
                 <label>Date début :</label>
-                <br />
+              
                 <input
                     type="text"
                     name="dateDebut"
                     value={data.dateDebut}
                     onChange={handleChange}
                 />
-                <br /><br />
+            
 
                 <label>Taux d'amortissement :</label>
-                <br />
+               
                 <input
                     type="text"
                     name="tauxAmortissement"
@@ -96,12 +100,13 @@ export default function Create() {
             </form>
             {
                 isSend &&
-                <h1>Succes, La possession a ete ajoute</h1>
+                <h1>Succès, la possession a été ajoutée</h1>
             }
             {
                 notSend &&
-                <h1>Erreur, La possession n'a pas ete ajoute</h1>
+                <h1>Erreur, la possession n'a pas été ajouté</h1>
             }
+            </section>
         </>
     )
 }

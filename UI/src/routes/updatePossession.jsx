@@ -1,22 +1,23 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import Root from "./root";
 
 export default function Update() {
-    const { libelle } = useParams(); // Récupère le libelle depuis les paramètres de l'URL
+    const { libelle } = useParams(); 
     const [formData, setFormData] = useState({
         libelle: "",
         dateFin: "",
     });
-    const navigate = useNavigate();
+    const [isUpdate, setIsUpdate] = useState(false);
+    const [isNotUpdate, setIsNotUpdate] = useState(false);
 
     useEffect(() => {
-        // Récupère les données actuelles de la possession pour pré-remplir le formulaire
         fetch(`http://localhost:3000/possession/${libelle}`)
             .then(response => response.json())
             .then(data => {
                 setFormData({
                     libelle: data.libelle,
-                    dateFin: data.dateFin ? new Date(data.dateFin).toISOString().slice(0, 10) : "", // Format YYYY-MM-DD
+                    dateFin: data.dateFin ? new Date(data.dateFin).toISOString().slice(0, 10) : "", 
                 });
             })
             .catch(error => console.error('Erreur lors du fetch :', error));
@@ -44,29 +45,39 @@ export default function Update() {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Données mises à jour avec succès :', data);
+                setIsUpdate(true);
+                setFormData({libelle: "", dateFin: ""})
             })
-            .catch(error => console.error('Erreur lors de la mise à jour :', error));
+            .catch(error => setIsNotUpdate(false));
     };
+
+    setTimeout(() => {
+        setIsUpdate(false);
+        setIsNotUpdate(false);
+    }, 1500);
 
     return (
         <>
+            <Root/>
+        
+            <section className="possessions">
+
             <h1>MODIFIER LA POSSESSION CHOISIE</h1>
             <br />
             <br />
             <form onSubmit={handleSubmit}>
                 <label>Libelle :</label>
-                <br />
+              
                 <input
                     type="text"
                     name="libelle"
                     value={formData.libelle}
                     onChange={handleChange}
                 />
-                <br />
-                <br />
+                
+               
                 <label>Date fin :</label>
-                <br />
+              
                 <input
                     type="date"
                     name="dateFin"
@@ -78,9 +89,16 @@ export default function Update() {
                 <button type="submit" className="btn btn-primary">Modifier</button>
             </form>
 
-            <Link to={`/`}>
-                <button className="btn btn-primary">Revenir à la page d'accueil</button>
-            </Link>
+            {
+                isUpdate && 
+                <h1>Succès, la possession a été mise à jour</h1>
+            }
+
+            {
+                isNotUpdate && 
+                <h1>Erreur, la possession n'a pas été mise à jour</h1>
+            }
+            </section>
         </>
     );
 }

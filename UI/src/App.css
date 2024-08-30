@@ -1,42 +1,52 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+*{
+  margin:  auto;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.navPrincipal{
+  position: absolute;
+  top: 0;
+  left: 1.6vw;
+  width: 97vw;
+  border-radius: 10px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.menu{
+  display: flex;
+  justify-content: space-between; 
+  width: 80%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.menu li{
+  font-size: x-large; 
 }
 
-.card {
-  padding: 2em;
+.possessions{
+  margin-top: 15vh;
+  display: flex;
+  flex-direction: column;
 }
 
-.read-the-docs {
-  color: #888;
+.possessions input{
+  width: 20vw;
+}
+
+.possessions form{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1vh;
+}
+
+.patrimoine{
+  margin-top: 15vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.patrimoine input{
+  width: 50%;
+}
+
+.patrimoine h1{
+  text-decoration: underline;
 }

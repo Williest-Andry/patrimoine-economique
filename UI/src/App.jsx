@@ -4,10 +4,11 @@ import {
 } from "react-router-dom";
 import Root from './routes/root.jsx';
 import ErrorPage from "./routes/error-page.jsx";
-import App from "./routes/possession.jsx";
+import Possessions from "./routes/possession.jsx";
 import Create from "./routes/createPossession.jsx";
 import Update from "./routes/updatePossession.jsx";
 import Patrimoine from "./routes/patrimoine.jsx";
+import './App.css';
 // function Header(){
 
 // }
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
 
   {
     path: "/possession",
-    element: <App/>,
+    element: <Possessions/>,
     errorElement: <ErrorPage/>
   },
   
