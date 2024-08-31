@@ -16,6 +16,8 @@ export default function Root() {
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link active" aria-current="page" to={`/patrimoine`}>Menu Patrimoine</Link>
+
+                                
                             </li>
                         </ul>
                     </div>
