@@ -32,7 +32,6 @@ export default function Create() {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Possession créée:', data);
                 setIsSend(true);
                 setData({ "libelle": '', "valeurInitiale": '', "dateDebut": '', "tauxAmortissement": '' });
             })

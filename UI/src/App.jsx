@@ -9,19 +9,6 @@ import Create from "./routes/createPossession.jsx";
 import Update from "./routes/updatePossession.jsx";
 import Patrimoine from "./routes/patrimoine.jsx";
 import './App.css';
-// function Header(){
-
-// }
-
-// function SideBar(){
-
-// }
-
-// export default function App(){
-
-// }
-
-
 
 const router = createBrowserRouter([
   {

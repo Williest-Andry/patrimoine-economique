@@ -23,6 +23,11 @@ export default function Root() {
                     </div>
                 </div>
             </nav>
+
+            <h4>BIENVENU SUR CETTE APPLICATION DE GESTION DE PATRIMOINE ECONOMIQUE,
+                VEUILLEZ CHOISIR LE MENU QUE VOUS VOULEZ
+            </h4>
+            <h1></h1>
         </>
     )
 }

@@ -5,7 +5,6 @@ import Possession from '../../models/possessions/Possession.js';
 
 const patrimoine = express.Router();
 
-// Route pour obtenir la valeur du patrimoine à une date donnée
 patrimoine.get('/:date', (req, res) => {
     const dateChoisie = req.params.date;
     let possessionsFinales = [];
@@ -40,7 +39,7 @@ patrimoine.get('/:date', (req, res) => {
         const values = possessionsFinales.map(possession => {
             const dateObj = new Date(date);
             if (isNaN(dateObj.getTime())) {
-                return 0; // Date invalide
+                return 0;
             }
             return parseInt(possession.getValeurApresAmortissement(dateObj));
         });
@@ -59,14 +58,11 @@ patrimoine.get('/:date', (req, res) => {
             instancier(jsonData);
             
             let resultChoisi = getValue(dateChoisie);
-            // console.log('Données JSON :', jsonData); // Ajoutez ce log pour vérifier les données
 
             if (isNaN(resultChoisi)) {
-            
                 return res.status(500).json({ error: "La valeur calculée n'est pas un nombre" });
             }
 
-        
             res.json({ valeurChoisie: resultChoisi });
         } catch (parseError) {
             console.error("Erreur lors du parsing du JSON :", parseError);

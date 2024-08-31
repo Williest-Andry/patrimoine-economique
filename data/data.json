@@ -169,6 +169,16 @@
           "dateDebut": "2024-08-28",
           "dateFin": null,
           "tauxAmortissement": "10"
+        },
+        {
+          "possesseur": {
+            "nom": "John Doe"
+          },
+          "libelle": "serieux",
+          "valeurInitiale": "0",
+          "dateDebut": "2024-08-28",
+          "dateFin": "2024-08-31T01:22:35.103Z",
+          "tauxAmortissement": "0"
         }
       ]
     }

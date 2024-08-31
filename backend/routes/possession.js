@@ -18,7 +18,6 @@ possession.get('/', async (req, res) => {
     }
 });
 
-// Route POST pour ajouter une nouvelle possession
 possession.post('/', async (req, res) => {
     try {
         const data = await fs.readFile(dataFilePath, 'utf-8');
@@ -36,7 +35,7 @@ possession.post('/', async (req, res) => {
 
         possessions.push(newData);
 
-        // Met à jour la structure JSON existante avec les nouvelles possessions
+       
         jsonData[1].data.possessions = possessions;
         await fs.writeFile(dataFilePath, JSON.stringify(jsonData, null, 2));
         res.send(newData);
@@ -46,7 +45,7 @@ possession.post('/', async (req, res) => {
     }
 });
 
-// Route PUT pour mettre à jour une possession
+
 possession.put('/:libelle', async (req, res) => {
     const libelle = req.params.libelle;
     try {
@@ -72,7 +71,6 @@ possession.put('/:libelle', async (req, res) => {
     }
 });
 
-// Route PUT pour fermer une possession
 possession.put('/:libelle/close', async (req, res) => {
     const libelle = req.params.libelle;
     try {

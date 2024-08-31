@@ -3,6 +3,7 @@ import Possession from "../../../models/possessions/Possession.js";
 import Flux from '../../../models/possessions/Flux.js'
 import { Link } from "react-router-dom";
 import Root from "./root.jsx";
+import '../App.css';
 
 
 export default function Possessions() {

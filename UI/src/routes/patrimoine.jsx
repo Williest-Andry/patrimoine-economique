@@ -3,6 +3,7 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import Root from "./root";
+import '../App.css';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -53,19 +54,17 @@ export default function Patrimoine() {
   }, [dateActuelle]);
 
   const LineChart = () => {
-    // Définissez les données du graphique
     const data = {
       labels: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aout', 'Sept', 'Oct', 'Nov', 'Dec'],
       datasets: [
         {
           label: 'Courbe de la valeur du patrimoine',
           data: [30, 20, 50, 40, 60, 70],
-          tension: 0.4, // Pour rendre la ligne plus lisse
+          tension: 0.4,
         },
       ],
     };
 
-    // Options du graphique
     const options = {
       responsive: true,
       plugins: {

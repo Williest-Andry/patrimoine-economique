@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Root from "./root";
+import '../App.css';
 
 export default function Update() {
     const { libelle } = useParams(); 
