@@ -47,8 +47,7 @@ export default function Patrimoine() {
         return response.json();
       })
       .then(data => {
-        console.log("Succès, la valeur actuelle a été reçue", data);
-        setPatrimoineActuel(data.valeurChoisie); // Mise à jour du patrimoine actuel
+        setPatrimoineActuel(data.valeurChoisie);
       })
       .catch(e => console.log("ERREUR LORS DE LA RECUPERATION DE LA VALEUR ACTUELLE", e))
   }, [dateActuelle]);

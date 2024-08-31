@@ -58,16 +58,15 @@ patrimoine.get('/:date', (req, res) => {
             jsonData = JSON.parse(data)[1].data.possessions;
             instancier(jsonData);
             
-            console.log("mandeha ihany ve", possessionsFinales);
             let resultChoisi = getValue(dateChoisie);
             // console.log('Données JSON :', jsonData); // Ajoutez ce log pour vérifier les données
 
             if (isNaN(resultChoisi)) {
-                console.error("Erreur: la valeur calculée n'est pas un nombre :", resultChoisi);
+            
                 return res.status(500).json({ error: "La valeur calculée n'est pas un nombre" });
             }
 
-            console.log('Envoi de la réponse JSON avec la valeur :', resultChoisi);
+        
             res.json({ valeurChoisie: resultChoisi });
         } catch (parseError) {
             console.error("Erreur lors du parsing du JSON :", parseError);

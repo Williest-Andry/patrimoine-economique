@@ -1,19 +1,19 @@
 import express from 'express';
 const possession = express.Router();
-import fs from 'node:fs/promises'; // Utiliser fs/promises pour simplifier le code asynchrone
+import fs from 'node:fs/promises';
+import Possession from '../../models/possessions/Possession.js';
+import Flux from '../../models/possessions/Flux.js';
 
-const dataFilePath = '../data/data.json'; // Chemin vers votre fichier JSON
+const dataFilePath = '../data/data.json';
 
-// Route GET pour récupérer les possessions
+
+
 possession.get('/', async (req, res) => {
     try {
         const data = await fs.readFile(dataFilePath, 'utf-8');
-        const jsonData = JSON.parse(data);
-        // Accédez aux possessions dans le bon emplacement du JSON
-        const possessions = jsonData[1]?.data?.possessions || [];
-        res.json(possessions);
+        const jsonData = JSON.parse(data)[1].data.possessions;
+        res.json(jsonData);   
     } catch (err) {
-        console.error("ERREUR LORS DE LA RECUPERATION DE DONNEES !!", err);
         res.status(500).send('Erreur lors de la récupération des données');
     }
 });
