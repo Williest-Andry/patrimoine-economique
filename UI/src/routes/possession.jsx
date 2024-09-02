@@ -46,11 +46,9 @@ export default function Possessions() {
         fetch('http://localhost:3000/possession/')
             .then(response => response.json())
             .then(data => {
-                instancier(data); 
-                
-                console.log("ito le izy", data);
+                instancier(data);
             })
-            .catch(error => console.error('ERREUR LORS DE LA RECUPERATION DE LA LISTE :', error));
+            .catch(error => console.error('ERREUR LORS DE LA RECUPERATION DE LA LISTE DANS /possession :', error));
     }, []);
 
     useEffect(() => {

@@ -2,65 +2,69 @@ import express from 'express';
 import fs from 'fs';
 import Flux from '../../models/possessions/Flux.js';
 import Possession from '../../models/possessions/Possession.js';
+import Patrimoine from '../../models/Patrimoine.js';
+import Personne from '../../models/Personne.js';
+// import { instancier } from './possession.js';
 
 const patrimoine = express.Router();
+const dataPath = '../data/data.json';
+
+function instancier(possessionsData) {
+    const possessionsFinales = possessionsData.map((data) => {
+        if (data.valeurConstante) {
+            return new Flux(
+                data.possesseur.nom,
+                data.libelle,
+                parseInt(data.valeurConstante),
+                new Date(data.dateDebut),
+                data.dateFin ? new Date(data.dateFin) : null,
+                data.tauxAmortissement ? parseInt(data.tauxAmortissement) : 0,
+                parseInt(data.jour)
+            );
+        }
+
+        return new Possession(
+            data.possesseur.nom,
+            data.libelle,
+            parseInt(data.valeurInitiale),
+            new Date(data.dateDebut),
+            data.dateFin ? new Date(data.dateFin) : null,
+            parseInt(data.tauxAmortissement)
+        );
+    });
+    return possessionsFinales;
+}
 
 patrimoine.get('/:date', (req, res) => {
     const dateChoisie = req.params.date;
-    let possessionsFinales = [];
-
-    function instancier(possessionsData) {
-        possessionsFinales = possessionsData.map((data) => {
-            if (data.valeurConstante) {
-                return new Flux(
-                    data.possesseur.nom,
-                    data.libelle,
-                    parseInt(data.valeurConstante),
-                    new Date(data.dateDebut),
-                    data.dateFin ? new Date(data.dateFin) : null,
-                    data.tauxAmortissement ? parseInt(data.tauxAmortissement) : 0,
-                    parseInt(data.jour)
-                );
-            }
-
-            return new Possession(
-                data.possesseur.nom,
-                data.libelle,
-                parseInt(data.valeurInitiale),
-                new Date(data.dateDebut),
-                data.dateFin ? new Date(data.dateFin) : null,
-                parseInt(data.tauxAmortissement)
-            );
-        });
-    }
-
-
-    function getValue(date) {
-        const values = possessionsFinales.map(possession => {
-            const dateObj = new Date(date);
-            if (isNaN(dateObj.getTime())) {
-                return 0;
-            }
-            return parseInt(possession.getValeurApresAmortissement(dateObj));
-        });
-
-        return values.reduce((p1, p2) => p1 + p2, 0);
-    }
-    fs.readFile('../data/data.json', 'utf-8', (err, data) => {
+  
+    fs.readFile(dataPath, 'utf-8', (err, data) => {
         if (err) {
-            console.error("Erreur lors de la lecture du fichier JSON :", err);
-            return res.status(500).json({ error: 'Erreur lors de la récupération des données' });
+            console.error("ERREUR LORS DE LA LECTURE DU FICHIER JSON DANS /:date ", err);
+            return res.status(500).json({ error: 'ERREUR LORS DE LA RÉCUPÉRATION DE DONNÉES' });
         }
-
+        
         let jsonData;
         try {
-            jsonData = JSON.parse(data)[1].data.possessions;
-            instancier(jsonData);
+            jsonData = JSON.parse(data)[1].data.possessions;    // tableau de possessions
+            const possessionsFinales = instancier(jsonData);    // tableau des instances possessions
             
+            function getValue(date) {
+                const values = possessionsFinales.map(possession => {
+                    const dateObj = new Date(date);
+                    if (isNaN(dateObj.getTime())) {
+                        return 0;
+                    }
+                    return parseInt(possession.getValeurApresAmortissement(dateObj));
+                });
+        
+                return values.reduce((p1, p2) => p1 + p2, 0);
+            }
+
             let resultChoisi = getValue(dateChoisie);
 
             if (isNaN(resultChoisi)) {
-                return res.status(500).json({ error: "La valeur calculée n'est pas un nombre" });
+                return res.status(500).json({ error: "LA VALEUR CALCULÉE N'EST PAS UN NOMBRE" });
             }
 
             res.json({ valeurChoisie: resultChoisi });
@@ -71,5 +75,40 @@ patrimoine.get('/:date', (req, res) => {
 
     });
 });
+
+patrimoine.put('/range', (req, res) => {
+    const range = req.body;
+    const jourChoisi = range.jour;
+    let lesDates = [];
+    let lesValeurs = [];
+
+    fs.readFile(dataPath, (err, data) => {
+        if (err) {
+            console.log("ERREUR LORS DE LA LECTURE DU JSON DANS /:range ", err);
+        }
+
+        const jsonData = JSON.parse(data)[1].data.possessions;  // tableau de possessions
+        const instances = instancier(jsonData);   // tableau des instances de possessions
+        const patrimoine = new Patrimoine(
+            JSON.parse(data)[0].data.possesseur,
+            instances
+        );
+
+        let dateMilieu = new Date(range.dateDebut);
+        dateMilieu.setMonth(dateMilieu.getMonth(), jourChoisi);
+
+        const vraieDateFin = new Date(range.dateFin);
+        vraieDateFin.setMonth(vraieDateFin.getMonth() + 1, jourChoisi);
+
+        while (dateMilieu < vraieDateFin) {
+            lesValeurs.push(patrimoine.getValeur(dateMilieu));
+            let vraieDate = new Date(dateMilieu);
+            lesDates.push(vraieDate);
+            dateMilieu.setMonth(dateMilieu.getMonth() + 1, jourChoisi);
+        }
+
+        res.json({ lesValeurs: lesValeurs, lesDates: lesDates });
+    })
+})
 
 export default patrimoine;

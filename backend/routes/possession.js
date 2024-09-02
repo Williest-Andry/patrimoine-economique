@@ -1,26 +1,50 @@
 import express from 'express';
-const possession = express.Router();
 import fs from 'node:fs/promises';
 import Possession from '../../models/possessions/Possession.js';
 import Flux from '../../models/possessions/Flux.js';
 
-const dataFilePath = '../data/data.json';
+const possession = express.Router();
+const dataPath = '../data/data.json';
 
+// export function instancier(possessionsData) {
+//     const possessionsFinales = possessionsData.map((data) => {
+//         if (data.valeurConstante) {
+//             return new Flux(
+//                 data.possesseur.nom,
+//                 data.libelle,
+//                 data.valeur,
+//                 new Date(data.dateDebut),
+//                 data.dateFin ? new Date(data.dateFin) : null,
+//                 data.tauxAmortissement,
+//                 data.jour
+//             );
+//         }
 
+//         return new Possession(
+//             data.possesseur.nom,
+//             data.libelle,
+//             data.valeurInitiale,
+//             new Date(data.dateDebut),
+//             data.dateFin ? new Date(data.dateFin) : null,
+//             data.tauxAmortissement
+//         );
+//     });
+//     return possessionsFinales;
+// }
 
 possession.get('/', async (req, res) => {
     try {
-        const data = await fs.readFile(dataFilePath, 'utf-8');
+        const data = await fs.readFile(dataPath, 'utf-8');
         const jsonData = JSON.parse(data)[1].data.possessions;
         res.json(jsonData);   
     } catch (err) {
-        res.status(500).send('Erreur lors de la récupération des données');
+        res.status(500).send('ERREUR LORS DE LA RÉCUPÉRATION DE DONNÉES DANS /possession');
     }
 });
 
 possession.post('/', async (req, res) => {
     try {
-        const data = await fs.readFile(dataFilePath, 'utf-8');
+        const data = await fs.readFile(dataPath, 'utf-8');
         const jsonData = JSON.parse(data);
         const possessions = jsonData[1]?.data?.possessions || [];
 
@@ -37,7 +61,7 @@ possession.post('/', async (req, res) => {
 
        
         jsonData[1].data.possessions = possessions;
-        await fs.writeFile(dataFilePath, JSON.stringify(jsonData, null, 2));
+        await fs.writeFile(dataPath, JSON.stringify(jsonData, null, 2));
         res.send(newData);
     } catch (err) {
         console.error("ERREUR LORS DE L'INSERTION DE DONNEES !!", err);
@@ -49,7 +73,7 @@ possession.post('/', async (req, res) => {
 possession.put('/:libelle', async (req, res) => {
     const libelle = req.params.libelle;
     try {
-        const data = await fs.readFile(dataFilePath, 'utf-8');
+        const data = await fs.readFile(dataPath, 'utf-8');
         const jsonData = JSON.parse(data);
         const possessions = jsonData[1]?.data?.possessions || [];
 
@@ -60,7 +84,7 @@ possession.put('/:libelle', async (req, res) => {
             possessions[libelleIndex].dateFin = req.body.dateFin || possessions[libelleIndex].dateFin;
 
             jsonData[1].data.possessions = possessions;
-            await fs.writeFile(dataFilePath, JSON.stringify(jsonData, null, 2));
+            await fs.writeFile(dataPath, JSON.stringify(jsonData, null, 2));
             res.send(possessions[libelleIndex]);
         } else {
             res.status(404).send('POSSESSION NON TROUVEE !!');
@@ -74,7 +98,7 @@ possession.put('/:libelle', async (req, res) => {
 possession.put('/:libelle/close', async (req, res) => {
     const libelle = req.params.libelle;
     try {
-        const data = await fs.readFile(dataFilePath, 'utf-8');
+        const data = await fs.readFile(dataPath, 'utf-8');
         const jsonData = JSON.parse(data);
         const possessions = jsonData[1]?.data?.possessions || [];
 
@@ -84,7 +108,7 @@ possession.put('/:libelle/close', async (req, res) => {
             possessions[libelleIndex].dateFin = new Date().toISOString();
 
             jsonData[1].data.possessions = possessions;
-            await fs.writeFile(dataFilePath, JSON.stringify(jsonData, null, 2));
+            await fs.writeFile(dataPath, JSON.stringify(jsonData, null, 2));
             res.send(possessions[libelleIndex]);
         } else {
             res.status(404).send('POSSESSION NON TROUVEE !!');

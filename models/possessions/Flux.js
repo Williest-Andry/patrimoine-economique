@@ -10,8 +10,6 @@ export default class Flux extends Possession {
     super(possesseur, libelle, valeur, dateDebut, dateFin, tauxAmortissement)
     this.valeur = 0;
     this.jour = jour;
-    // this.source = source; // null || Compte
-    // this.destination = destination; // Compte
     this.dateDebut = dateDebut;
     this.dateFin = dateFin;
     this.valeurConstante = valeur
@@ -20,6 +18,8 @@ export default class Flux extends Possession {
 
   getValeur(date) {
     const nombreDeMois = (debut, dateEvaluation, jourJ) => {
+      debut = new Date(debut);
+      dateEvaluation = new Date(dateEvaluation);
       let compteur = 0;
 
       if (debut.getDate() < jourJ) {

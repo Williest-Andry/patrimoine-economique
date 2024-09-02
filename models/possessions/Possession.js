@@ -13,7 +13,9 @@ export default class Possession {
   }
 
   getValeurApresAmortissement(dateActuelle) {
-    if (dateActuelle < this.dateDebut) {
+    dateActuelle = new Date(dateActuelle);
+    this.dateDebut = new Date(this.dateDebut);
+    if (new Date(dateActuelle) < new Date(this.dateDebut)) {
       return 0;
     }
     const differenceDate = {
