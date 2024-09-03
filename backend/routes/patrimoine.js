@@ -4,7 +4,6 @@ import Flux from '../../models/possessions/Flux.js';
 import Possession from '../../models/possessions/Possession.js';
 import Patrimoine from '../../models/Patrimoine.js';
 import Personne from '../../models/Personne.js';
-// import { instancier } from './possession.js';
 
 const patrimoine = express.Router();
 const dataPath = '../data/data.json';
@@ -90,7 +89,7 @@ patrimoine.put('/range', (req, res) => {
         const jsonData = JSON.parse(data)[1].data.possessions;  // tableau de possessions
         const instances = instancier(jsonData);   // tableau des instances de possessions
         const patrimoine = new Patrimoine(
-            JSON.parse(data)[0].data.possesseur,
+            new Personne(JSON.parse(data)[0].data.nom),
             instances
         );
 

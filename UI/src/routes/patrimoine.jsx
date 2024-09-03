@@ -4,17 +4,20 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import Root from "./root";
 import '../App.css';
-import { color } from "chart.js/helpers";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default function Patrimoine() {
   const backendUrl = 'http://localhost:3000/';
+  const dateActuelle = new Date().toISOString().split('T')[0];
+
   const [patrimoineActuel, setPatrimoineActuel] = useState(0);
   const [patrimoineChoisi, setPatrimoineChoisi] = useState(0);
   const [valeurChoisie, setValeurChoisie] = useState("");
+
   const [isValid, setIsValid] = useState(false);
-  const dateActuelle = new Date().toISOString().split('T')[0];
+  const [isValidRange, setIsValidRange] = useState(false);
+  
   const [lesDates, setLesDates] = useState([]);
   const [lesValeurs, setLesValeurs] = useState([]);
   const [rangeDates, setRangeDates] = useState({
@@ -32,14 +35,7 @@ export default function Patrimoine() {
     else {
       setIsValid(false);
       fetch(`http://localhost:3000/patrimoine/${valeurChoisie}`)
-        .then(response => {
-          if (!response.ok) {
-            return response.text().then(text => {
-              throw new Error(`Erreur HTTP ! Status: ${response.status}. Reponse: ${text}`);
-            });
-          }
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
           setPatrimoineChoisi(data.valeurChoisie);
         })
@@ -49,27 +45,43 @@ export default function Patrimoine() {
 
   useEffect(() => {
     fetch(`http://localhost:3000/patrimoine/${dateActuelle}`)
-      .then(response => {
-        if (!response.ok) {
-          return response.text().then(text => {
-            throw new Error(`Erreur HTTP ! Status: ${response.status}. Reponse: ${text}`);
-          });
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
         setPatrimoineActuel(data.valeurChoisie);
       })
       .catch(e => console.log("ERREUR LORS DE LA RECUPERATION DE LA VALEUR ACTUELLE", e))
   }, [dateActuelle]);
 
-  fetch(backendUrl + `patrimoine/${rangeDates}`)
-    .then(response => response.json())
-    .then(data => {
-      setLesDates(data.lesDates);
-      setLesValeurs(data.lesValeurs);
-    })
-    .catch(err => console.log("ERREUR LORS DE LA RÉCUPÉRATION DE LA VALEUR ENTRE LES DEUX DATES"));
+
+  const changerRangeDates = (ev) => {
+    const { name, value } = ev.target;
+    setRangeDates(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  }
+
+  const envoyerLeRange = () => {
+    if (rangeDates.dateDebut === "" || rangeDates.dateFin === "" || rangeDates.jour === ""){
+      setIsValidRange(true);
+    }
+    else{
+      setIsValidRange(false);
+      fetch(backendUrl + `patrimoine/range`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(rangeDates)
+      })
+        .then(response => response.json())
+        .then(data => {
+          setLesDates(data.lesDates);
+          setLesValeurs(data.lesValeurs);
+        })
+        .catch(err => console.log("ERREUR LORS DE LA RÉCUPÉRATION DE LA VALEUR ENTRE LES DEUX DATES"));
+    }
+  }
 
   const LineChart = () => {
     const data = {
@@ -82,32 +94,33 @@ export default function Patrimoine() {
         },
       ],
     };
-
-
-    return <Line data={data}/>;
+    return <Line data={data} />
   };
 
   return (
     <>
       <Root />
+
       <section className="patrimoine">
         <h1>Évolution de la valeur du patrimoine : </h1>
         <label>Date début : </label>
-        <input type="date" />
+        <input type="date" name="dateDebut" value={rangeDates.dateDebut} onChange={changerRangeDates} />
         <br />
         <label>Date fin : </label>
-        <input type="date" />
+        <input type="date" name="dateFin" value={rangeDates.dateFin} onChange={changerRangeDates} />
         <br />
-        <label>Jour du mois : </label>
-        <input type="text" />
+        <label>Jour du mois (1 à 31) : </label>
+        <input type="text" name="jour" value={rangeDates.jour} onChange={changerRangeDates} />
         <br />
-        <button className="btn btn-primary" >Valider</button>
+        <button className="btn btn-primary" onClick={envoyerLeRange}>Valider</button>
+        {
+          isValidRange &&
+          <h2>Veuillez bien compléter les 3 champs ci-dessus</h2>
+        }
 
         <br />
 
-        <section>
-          <LineChart />
-        </section>
+        <LineChart />
 
       </section>
 
@@ -121,7 +134,7 @@ export default function Patrimoine() {
           type="date"
           value={valeurChoisie}
           onChange={(e) => setValeurChoisie(e.target.value)}
-          />
+        />
         <br />
         <button onClick={handleSubmit} className="btn btn-primary" >Valider</button>
         <br />
