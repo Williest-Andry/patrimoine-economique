@@ -50,3 +50,12 @@
 .patrimoine h1{
   text-decoration: underline;
 }
+
+.obligatoire{
+  color: red;
+}
+
+.chartContainer{
+  width: 90vw;
+  height: 90vh;
+}

@@ -4,35 +4,10 @@ import Flux from '../../models/possessions/Flux.js';
 import Possession from '../../models/possessions/Possession.js';
 import Patrimoine from '../../models/Patrimoine.js';
 import Personne from '../../models/Personne.js';
+import { instancier } from './possession.js';
 
 const patrimoine = express.Router();
 const dataPath = '../data/data.json';
-
-function instancier(possessionsData) {
-    const possessionsFinales = possessionsData.map((data) => {
-        if (data.valeurConstante) {
-            return new Flux(
-                data.possesseur.nom,
-                data.libelle,
-                parseInt(data.valeurConstante),
-                new Date(data.dateDebut),
-                data.dateFin ? new Date(data.dateFin) : null,
-                data.tauxAmortissement ? parseInt(data.tauxAmortissement) : 0,
-                parseInt(data.jour)
-            );
-        }
-
-        return new Possession(
-            data.possesseur.nom,
-            data.libelle,
-            parseInt(data.valeurInitiale),
-            new Date(data.dateDebut),
-            data.dateFin ? new Date(data.dateFin) : null,
-            parseInt(data.tauxAmortissement)
-        );
-    });
-    return possessionsFinales;
-}
 
 patrimoine.get('/:date', (req, res) => {
     const dateChoisie = req.params.date;

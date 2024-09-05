@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import React from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, scales, plugins } from 'chart.js';
 import Root from "./root";
 import '../App.css';
 
@@ -93,36 +93,50 @@ export default function Patrimoine() {
           tension: 0.4,
         },
       ],
-    };
-    return <Line data={data} />
+    }
+
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      // scales: {
+      //   x: {
+      //     type: 'linear',
+      //     position: 'bottom',
+      //     max: 100000,
+      //     ticks: {
+      //       stepSize: 10000
+      //     }
+      //   },
+      //   y: {
+      //     type: 'linear',
+      //     min: -100,
+      //     max: 2000,
+      //     ticks: {
+      //       stepSize: 500
+      //     },
+          
+      //   }
+      // },
+      plugins: {
+        legend: {
+          display: true,
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false
+        }
+      }
+    }
+    return (
+      <div className="chartContainer">
+        <Line data={data} options={options}/>
+      </div>
+    )
   };
 
   return (
     <>
       <Root />
-
-      <section className="patrimoine">
-        <h1>Évolution de la valeur du patrimoine : </h1>
-        <label>Date début : </label>
-        <input type="date" name="dateDebut" value={rangeDates.dateDebut} onChange={changerRangeDates} />
-        <br />
-        <label>Date fin : </label>
-        <input type="date" name="dateFin" value={rangeDates.dateFin} onChange={changerRangeDates} />
-        <br />
-        <label>Jour du mois (1 à 31) : </label>
-        <input type="text" name="jour" value={rangeDates.jour} onChange={changerRangeDates} />
-        <br />
-        <button className="btn btn-primary" onClick={envoyerLeRange}>Valider</button>
-        {
-          isValidRange &&
-          <h2>Veuillez bien compléter les 3 champs ci-dessus</h2>
-        }
-
-        <br />
-
-        <LineChart />
-
-      </section>
 
       <section className="patrimoine  ">
         <h1>Valeur du patrimoine : </h1>
@@ -147,6 +161,30 @@ export default function Patrimoine() {
           <h2>Veuillez choisir une date </h2>
         }
       </section>
+        
+      <section className="patrimoine">
+        <h1>Évolution de la valeur du patrimoine : </h1>
+        <label>Date début : </label>
+        <input type="date" name="dateDebut" value={rangeDates.dateDebut} onChange={changerRangeDates} />
+        <br />
+        <label>Date fin : </label>
+        <input type="date" name="dateFin" value={rangeDates.dateFin} onChange={changerRangeDates} />
+        <br />
+        <label>Jour du mois (1 à 31) : </label>
+        <input type="text" name="jour" value={rangeDates.jour} onChange={changerRangeDates} />
+        <br />
+        <button className="btn btn-primary" onClick={envoyerLeRange}>Valider</button>
+        {
+          isValidRange &&
+          <h2>Veuillez bien compléter les 3 champs ci-dessus</h2>
+        }
+
+        <br />
+
+        <LineChart />
+
+      </section>
+
     </>
   );
 }

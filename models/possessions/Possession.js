@@ -23,7 +23,7 @@ export default class Possession {
       month: dateActuelle.getMonth() - this.dateDebut.getMonth(),
       day: dateActuelle.getDate() - this.dateDebut.getDate(),
     };
-  
+    
     var raison = differenceDate.year + differenceDate.month / 12 + differenceDate.day / 365;
 
     const result = this.valeur - this.valeur *(raison * this.tauxAmortissement / 100);

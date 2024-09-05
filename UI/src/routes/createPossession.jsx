@@ -5,9 +5,11 @@ import '../App.css';
 export default function Create() {
     const [isSend, setIsSend] = useState(false);
     const [notSend, setNotSend] = useState(false);
+    const [allValid, setAllValid] = useState(false);
+    const [exist, setExist] = useState(false);
     const [data, setData] = useState({
         "libelle": "",
-        "valeurInitiale": "",
+        "valeur": "",
         "dateDebut": "",
         "tauxAmortissement": ""
     })
@@ -22,68 +24,75 @@ export default function Create() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        fetch('http://localhost:3000/possession', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json())
-            .then(data => {
-                setIsSend(true);
-                setData({ "libelle": '', "valeurInitiale": '', "dateDebut": '', "tauxAmortissement": '' });
+        if (data.libelle === "" || data.valeur === ""){
+            setAllValid(true);
+        }
+        else{
+            setAllValid(false);
+            fetch('http://localhost:3000/possession', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
             })
-            .catch(error => {
-                setNotSend(true)
-            });
-
-
-        setTimeout(() => {
-            setIsSend(false);
-            setNotSend(false);
-        }, 1500);
-    };
-
+                .then(response => response.json())
+                .then(data => {
+                    setIsSend(true);
+                    setExist(false);
+                    setData({ "libelle": '', "valeur": '', "dateDebut": '', "tauxAmortissement": '' });
+                })
+                .catch(error => {
+                    setNotSend(true);
+                    setExist(true);
+                    console.log("ito le erreur", error);
+                });
+    
+            setTimeout(() => {
+                setIsSend(false);
+                setNotSend(false);
+            }, 1500);
+        }
+    }
+    
     return (
         <>
             <Root/>
 
             <section className="possessions">
             <h1>AJOUTER UNE POSSESSION</h1>
+            <span className="obligatoire">(*) : champ obligatoire</span>
             <br></br>
             <br></br>
             <form onSubmit={handleSubmit}>
-                <label>Libelle :</label>
+                <label>Libelle<span className="obligatoire">*</span> :</label>
                 
                 <input
                     type="text"
                     name="libelle"
                     value={data.libelle}
                     onChange={handleChange}
-                />
+                    />
                
 
-                <label>Valeur (en Ariary) :</label>
+                <label>Valeur<span className="obligatoire">*</span> (en Ariary) :</label>
                
                 <input
                     type="text"
-                    name="valeurInitiale"
-                    value={data.valeurInitiale}
+                    name="valeur"
+                    value={data.valeur}
                     onChange={handleChange}
-                />
+                    />
                 
 
                 <label>Date début :</label>
               
                 <input
-                    type="text"
+                    type="date"
                     name="dateDebut"
                     value={data.dateDebut}
                     onChange={handleChange}
                 />
-            
 
                 <label>Taux d'amortissement :</label>
                
@@ -92,8 +101,17 @@ export default function Create() {
                     name="tauxAmortissement"
                     value={data.tauxAmortissement}
                     onChange={handleChange}
-                />
+                    />
                 <br /><br />
+                {
+                    exist && 
+                    <h6>La possession existe déjà !!</h6>
+                }
+
+                {
+                    allValid && 
+                    <h6 className="obligatoire">Veuillez compléter le(s) champ(s) obligatoire(s)</h6>
+                }
 
                 <button className="btn btn-primary">Ajouter</button>
             </form>
