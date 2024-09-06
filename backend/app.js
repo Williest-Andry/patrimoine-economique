@@ -8,10 +8,6 @@ import cors from 'cors';
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('BIENVENU SUR CETTE APPLICATION');
-});
-
 app.use('/possession', possession);
 app.use('/patrimoine', patrimoine);
 

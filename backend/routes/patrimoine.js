@@ -1,7 +1,5 @@
 import express from 'express';
 import fs from 'fs';
-import Flux from '../../models/possessions/Flux.js';
-import Possession from '../../models/possessions/Possession.js';
 import Patrimoine from '../../models/Patrimoine.js';
 import Personne from '../../models/Personne.js';
 import { instancier } from './possession.js';
@@ -52,7 +50,7 @@ patrimoine.get('/:date', (req, res) => {
 
 patrimoine.put('/range', (req, res) => {
     const range = req.body;
-    const jourChoisi = range.jour;
+    const jourChoisi = range.jour === "" ? "1" : range.jour;
     let lesDates = [];
     let lesValeurs = [];
 

@@ -17,7 +17,8 @@ export default function Patrimoine() {
 
   const [isValid, setIsValid] = useState(false);
   const [isValidRange, setIsValidRange] = useState(false);
-  
+  const [correctRange, setCorrectRange] = useState(false);
+
   const [lesDates, setLesDates] = useState([]);
   const [lesValeurs, setLesValeurs] = useState([]);
   const [rangeDates, setRangeDates] = useState({
@@ -62,11 +63,16 @@ export default function Patrimoine() {
   }
 
   const envoyerLeRange = () => {
-    if (rangeDates.dateDebut === "" || rangeDates.dateFin === "" || rangeDates.jour === ""){
+    if (rangeDates.dateDebut === "" || rangeDates.dateFin === "") {
       setIsValidRange(true);
     }
-    else{
+    else if (new Date(rangeDates.dateDebut) > new Date(rangeDates.dateFin)) {
+      setCorrectRange(true);
+      console.log("debut > fin");
+    }
+    else {
       setIsValidRange(false);
+      setCorrectRange(false);
       fetch(backendUrl + `patrimoine/range`, {
         method: "PUT",
         headers: {
@@ -76,6 +82,7 @@ export default function Patrimoine() {
       })
         .then(response => response.json())
         .then(data => {
+          console.log("goo");
           setLesDates(data.lesDates);
           setLesValeurs(data.lesValeurs);
         })
@@ -85,7 +92,7 @@ export default function Patrimoine() {
 
   const LineChart = () => {
     const data = {
-      labels: lesDates,
+      labels: lesDates.map(date => new Date(date).toLocaleString().slice(0,10)),
       datasets: [
         {
           label: 'Courbe de la valeur du patrimoine',
@@ -98,38 +105,12 @@ export default function Patrimoine() {
     const options = {
       responsive: true,
       maintainAspectRatio: false,
-      // scales: {
-      //   x: {
-      //     type: 'linear',
-      //     position: 'bottom',
-      //     max: 100000,
-      //     ticks: {
-      //       stepSize: 10000
-      //     }
-      //   },
-      //   y: {
-      //     type: 'linear',
-      //     min: -100,
-      //     max: 2000,
-      //     ticks: {
-      //       stepSize: 500
-      //     },
-          
-      //   }
-      // },
-      plugins: {
-        legend: {
-          display: true,
-        },
-        tooltip: {
-          mode: 'index',
-          intersect: false
-        }
-      }
+      
     }
+
     return (
       <div className="chartContainer">
-        <Line data={data} options={options}/>
+        <Line data={data} options={options} />
       </div>
     )
   };
@@ -161,7 +142,7 @@ export default function Patrimoine() {
           <h2>Veuillez choisir une date </h2>
         }
       </section>
-        
+
       <section className="patrimoine">
         <h1>Évolution de la valeur du patrimoine : </h1>
         <label>Date début : </label>
@@ -170,7 +151,7 @@ export default function Patrimoine() {
         <label>Date fin : </label>
         <input type="date" name="dateFin" value={rangeDates.dateFin} onChange={changerRangeDates} />
         <br />
-        <label>Jour du mois (1 à 31) : </label>
+        <label>Jour du mois (1 à 31) (par défaut, la valeur est 1): </label>
         <input type="text" name="jour" value={rangeDates.jour} onChange={changerRangeDates} />
         <br />
         <button className="btn btn-primary" onClick={envoyerLeRange}>Valider</button>
@@ -178,7 +159,10 @@ export default function Patrimoine() {
           isValidRange &&
           <h2>Veuillez bien compléter les 3 champs ci-dessus</h2>
         }
-
+        {
+          correctRange &&
+          <h2>Veuillez respecter la chronologie des 2 dates (début et fin)</h2>
+        }
         <br />
 
         <LineChart />
