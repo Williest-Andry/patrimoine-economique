@@ -4,6 +4,7 @@ import '../App.css';
 import NavBar from "../NavBar";
 
 export default function Create() {
+    const deployedSite = 'https://patrimoine-economique-backend-std23080.onrender.com';
     const [isSend, setIsSend] = useState(false);
     const [notSend, setNotSend] = useState(false);
     const [allValid, setAllValid] = useState(false);
@@ -30,7 +31,7 @@ export default function Create() {
         }
         else{
             setAllValid(false);
-            fetch('http://localhost:3000/possession', {
+            fetch(deployedSite + '/possession', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

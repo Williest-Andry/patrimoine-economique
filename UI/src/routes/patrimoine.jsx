@@ -10,6 +10,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 export default function Patrimoine() {
   const backendUrl = 'http://localhost:3000/';
+  const deployedSite = 'https://patrimoine-economique-backend-std23080.onrender.com';
   const dateActuelle = new Date().toISOString().split('T')[0];
 
   const [patrimoineActuel, setPatrimoineActuel] = useState(0);
@@ -36,7 +37,7 @@ export default function Patrimoine() {
     }
     else {
       setIsValid(false);
-      fetch(`http://localhost:3000/patrimoine/${valeurChoisie}`)
+      fetch(deployedSite +`/patrimoine/${valeurChoisie}`)
         .then(response => response.json())
         .then(data => {
           setPatrimoineChoisi(data.valeurChoisie);
@@ -46,7 +47,7 @@ export default function Patrimoine() {
   }
 
   useEffect(() => {
-    fetch(`http://localhost:3000/patrimoine/${dateActuelle}`)
+    fetch(deployedSite +`/patrimoine/${dateActuelle}`)
       .then(response => response.json())
       .then(data => {
         setPatrimoineActuel(data.valeurChoisie);

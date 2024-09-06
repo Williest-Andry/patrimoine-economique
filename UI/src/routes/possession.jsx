@@ -6,11 +6,12 @@ import NavBar from "../NavBar.jsx";
 
 
 export default function Possessions() {
+    const deployedSite = 'https://patrimoine-economique-backend-std23080.onrender.com';
     const [listePossessions, setListePossessions] = useState([]);
     const [instancesPossession, setInstancesPossession] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3000/possession/')
+        fetch(deployedSite + '/possession/')
             .then(response => response.json())
             .then(data => {
                 console.log("reto le azo",data);
@@ -21,7 +22,7 @@ export default function Possessions() {
     }, []);
 
     const handleClose = (libelle) => {
-        fetch(`http://localhost:3000/possession/${libelle}/close`, {
+        fetch(deployedSite + `/possession/${libelle}/close`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,7 +30,7 @@ export default function Possessions() {
         })
             .then(data => {
                 console.log("Possession fermée avec succès", data);
-                fetch('http://localhost:3000/possession/')
+                fetch(deployedSite + '/possession/')
                     .then(response => response.json())
                     .then(data => setListePossessions(data.listePossessions))
                     .catch(error => console.error('Erreur lors de la récupération des données :', error));

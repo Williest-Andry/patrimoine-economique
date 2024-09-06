@@ -6,6 +6,7 @@ import Personne from '../../models/Personne.js';
 
 const possession = express.Router();
 const dataPath = '../data/data.json';
+const deployedSite = 'https://patrimoine-economique-backend-std23080.onrender.com';
 
 export function instancier(possessionsData) {
     const possessionsFinales = possessionsData.map((data) => {
@@ -49,7 +50,7 @@ function getActualValue(listePossessions) {
 
 possession.get('/', async (req, res) => {
     try {
-        const data = await fs.readFile(dataPath, 'utf-8');
+        const data = await fs.readFile(deployedSite, 'utf-8');
         const jsonData = JSON.parse(data)[1].data.possessions;
         const dataFinales = instancier(jsonData);
         const valeursActuelles = getActualValue(dataFinales);
@@ -62,7 +63,7 @@ possession.get('/', async (req, res) => {
 
 possession.post('/', async (req, res) => {
     try {
-        const data = await fs.readFile(dataPath, 'utf-8');
+        const data = await fs.readFile(deployedSite, 'utf-8');
         const jsonData = JSON.parse(data);
         const possessions = jsonData[1]?.data?.possessions || [];
 
@@ -81,7 +82,7 @@ possession.post('/', async (req, res) => {
             possessions.push(newData);
 
             jsonData[1].data.possessions = possessions;
-            await fs.writeFile(dataPath, JSON.stringify(jsonData, null, 2));
+            await fs.writeFile(deployedSite, JSON.stringify(jsonData, null, 2));
             res.send(newData);
         }
     } catch (err) {
@@ -93,7 +94,7 @@ possession.post('/', async (req, res) => {
 possession.put('/:libelle', async (req, res) => {
     const libelle = req.params.libelle;
     try {
-        const data = await fs.readFile(dataPath, 'utf-8');
+        const data = await fs.readFile(deployedSite, 'utf-8');
         const jsonData = JSON.parse(data);
         const possessions = jsonData[1]?.data?.possessions || [];
 
@@ -104,7 +105,7 @@ possession.put('/:libelle', async (req, res) => {
             possessions[libelleIndex].dateFin = req.body.dateFin || possessions[libelleIndex].dateFin;
 
             jsonData[1].data.possessions = possessions;
-            await fs.writeFile(dataPath, JSON.stringify(jsonData, null, 2));
+            await fs.writeFile(deployedSite, JSON.stringify(jsonData, null, 2));
             res.send(possessions[libelleIndex]);
         }
         else {
@@ -120,7 +121,7 @@ possession.put('/:libelle/close', async (req, res) => {
     const libelle = req.params.libelle;
 
     try {
-        const data = await fs.readFile(dataPath, 'utf-8');
+        const data = await fs.readFile(deployedSite, 'utf-8');
         const jsonData = JSON.parse(data);
         const possessions = jsonData[1]?.data?.possessions || [];
 
@@ -130,7 +131,7 @@ possession.put('/:libelle/close', async (req, res) => {
             possessions[libelleIndex].dateFin = new Date();
 
             jsonData[1].data.possessions = possessions;
-            await fs.writeFile(dataPath, JSON.stringify(jsonData, null, 2));
+            await fs.writeFile(deployedSite, JSON.stringify(jsonData, null, 2));
             res.send(possessions[libelleIndex]);
         }
         else {

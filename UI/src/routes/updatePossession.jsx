@@ -5,6 +5,7 @@ import '../App.css';
 import NavBar from "../NavBar";
 
 export default function Update() {
+    const deployedSite = 'https://patrimoine-economique-backend-std23080.onrender.com';
     const { libelle } = useParams(); 
     const [formData, setFormData] = useState({
         libelle: "",
@@ -14,7 +15,7 @@ export default function Update() {
     const [isNotUpdate, setIsNotUpdate] = useState(false);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/possession/${libelle}`)
+        fetch(deployedSite + `/possession/${libelle}`)
             .then(response => response.json())
             .then(data => {
                 setFormData({
@@ -35,7 +36,7 @@ export default function Update() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`http://localhost:3000/possession/${libelle}`, {
+        fetch(deployedSite + `/possession/${libelle}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
