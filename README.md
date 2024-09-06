@@ -1,13 +1,11 @@
 STD23080 - ANDRY NY AINA Williest
 
-Commandes nécessaires pour lancer le projet : 
+Commandes nécessaires pour lancer l'application : 
 cd backend
-npm install 
+node app.js
 
 
-cd UI/src
+cd UI
 npm install
-
-node backend/app.js
-cd UI/src/
+cd UI/src
 npm run dev
