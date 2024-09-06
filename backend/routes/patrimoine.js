@@ -6,12 +6,12 @@ import { instancier } from './possession.js';
 
 const patrimoine = express.Router();
 const dataPath = '../data/data.json';
-const deployedSite = 'https://patrimoine-economique-backend-std23080.onrender.com';
+const dataWhenDeployed = './data/data.json';
 
 patrimoine.get('/:date', (req, res) => {
     const dateChoisie = req.params.date;
   
-    fs.readFile(deployedSite, 'utf-8', (err, data) => {
+    fs.readFile(dataWhenDeployed, 'utf-8', (err, data) => {
         if (err) {
             console.error("ERREUR LORS DE LA LECTURE DU FICHIER JSON DANS /:date ", err);
             return res.status(500).json({ error: 'ERREUR LORS DE LA RÉCUPÉRATION DE DONNÉES' });
@@ -55,7 +55,7 @@ patrimoine.put('/range', (req, res) => {
     let lesDates = [];
     let lesValeurs = [];
 
-    fs.readFile(deployedSite, (err, data) => {
+    fs.readFile(dataWhenDeployed, (err, data) => {
         if (err) {
             console.log("ERREUR LORS DE LA LECTURE DU JSON DANS /:range ", err);
         }
