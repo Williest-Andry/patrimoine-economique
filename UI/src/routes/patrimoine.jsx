@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, scales, plugins } from 'chart.js';
 import Root from "./root";
 import '../App.css';
+import NavBar from "../NavBar";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -117,7 +118,7 @@ export default function Patrimoine() {
 
   return (
     <>
-      <Root />
+      <NavBar />
 
       <section className="patrimoine  ">
         <h1>VALEUR DU PATRIMOINE : </h1>

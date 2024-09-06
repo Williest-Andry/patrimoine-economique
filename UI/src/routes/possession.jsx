@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Root from "./root.jsx";
 import '../App.css';
+import NavBar from "../NavBar.jsx";
 
 
 export default function Possessions() {
@@ -38,7 +39,7 @@ export default function Possessions() {
 
     return (
         <>
-            <Root />
+            <NavBar />
 
             <section className="possessions">
                 <h1>LISTE DES POSSESSIONS</h1>

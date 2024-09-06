@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Root from "./root";
 import '../App.css';
+import NavBar from "../NavBar";
 
 export default function Create() {
     const [isSend, setIsSend] = useState(false);
@@ -57,7 +58,7 @@ export default function Create() {
     
     return (
         <>
-            <Root/>
+            <NavBar/>
 
             <section className="possessions">
             <h1>AJOUTER UNE POSSESSION</h1>

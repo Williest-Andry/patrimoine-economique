@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Root from "./root";
 import '../App.css';
+import NavBar from "../NavBar";
 
 export default function Update() {
     const { libelle } = useParams(); 
@@ -59,7 +60,7 @@ export default function Update() {
 
     return (
         <>
-            <Root/>
+            <NavBar/>
         
             <section className="possessions">
 
