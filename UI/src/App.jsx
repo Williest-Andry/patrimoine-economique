@@ -1,7 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import {createBrowserRouter,RouterProvider,} from "react-router-dom";
 import Root from './routes/root.jsx';
 import ErrorPage from "./routes/error-page.jsx";
 import Possessions from "./routes/possession.jsx";

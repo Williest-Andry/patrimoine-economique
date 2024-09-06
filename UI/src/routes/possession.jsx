@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Possession from "../../../models/possessions/Possession.js";
-import Flux from '../../../models/possessions/Flux.js'
 import { Link } from "react-router-dom";
 import Root from "./root.jsx";
 import '../App.css';
@@ -8,37 +6,7 @@ import '../App.css';
 
 export default function Possessions() {
     const [listePossessions, setListePossessions] = useState([]);
-    const [valeurSelecteur, setValeurSelecteur] = useState("");
-    const [valeurSelectionne, setValeurSelectionne] = useState("Non définie");
-    const [dateNonNulle, setDateNonNulle] = useState(false);
     const [instancesPossession, setInstancesPossession] = useState([]);
-
-    // function instancier(possessionsData) {
-    //     const possessionsFinales = possessionsData.map((data) => {
-    //         if (data.valeurConstante) {
-    //             return new Flux(
-    //                 data.possesseur.nom,
-    //                 data.libelle,
-    //                 data.valeur,
-    //                 new Date(data.dateDebut),
-    //                 data.dateFin ? new Date(data.dateFin) : null,
-    //                 data.tauxAmortissement,
-    //                 data.jour
-    //             );
-    //         }
-
-    //         return new Possession(
-    //             data.possesseur.nom,
-    //             data.libelle,
-    //             data.valeurInitiale,
-    //             new Date(data.dateDebut),
-    //             data.dateFin ? new Date(data.dateFin) : null,
-    //             data.tauxAmortissement
-    //         );
-    //     });
-    //     setListePossessions(possessionsFinales);
-    //     console.log("ito indray", possessionsFinales);
-    // }
 
     useEffect(() => {
         fetch('http://localhost:3000/possession/')
@@ -50,20 +18,6 @@ export default function Possessions() {
             })
             .catch(error => console.error('ERREUR LORS DE LA RECUPERATION DE LA LISTE DANS /possession :', error));
     }, []);
-
-    // useEffect(() => {
-    //     if (listePossessions.length > 0) {
-    //         getActualValue();
-    //     }
-    // }, [listePossessions]);
-
-    // function getActualValue() {
-    //     const today = new Date();
-    //     const resultats = listePossessions.map(possession =>
-    //         possession.getValeurApresAmortissement(today)
-    //     );
-    //     setInstancesPossession(resultats);
-    // }
 
     const handleClose = (libelle) => {
         fetch(`http://localhost:3000/possession/${libelle}/close`, {

@@ -5,7 +5,9 @@ export default function Root() {
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary navPrincipal">
                 <div className="container-fluid">
-                    <a className="navbar-brand" >Gestion de patrimoine économique</a>
+                    <Link to={'/'}>
+                        <a className="navbar-brand" >Gestion de patrimoine économique</a>
+                    </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -16,16 +18,14 @@ export default function Root() {
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link active" aria-current="page" to={`/patrimoine`}>Menu Patrimoine</Link>
-
-                                
                             </li>
                         </ul>
                     </div>
                 </div>
             </nav>
 
-            <h4>BIENVENU SUR CETTE APPLICATION DE GESTION DE PATRIMOINE ECONOMIQUE,
-                VEUILLEZ CHOISIR LE MENU QUE VOUS VOULEZ
+            <h4>BIENVENUE SUR CETTE APPLICATION DE GESTION DE PATRIMOINE ÉCONOMIQUE,
+                VEUILLEZ CHOISIR LE MENU QUE VOUS VOULEZ.
             </h4>
             <h1></h1>
         </>

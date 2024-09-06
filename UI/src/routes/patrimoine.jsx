@@ -120,7 +120,7 @@ export default function Patrimoine() {
       <Root />
 
       <section className="patrimoine  ">
-        <h1>Valeur du patrimoine : </h1>
+        <h1>VALEUR DU PATRIMOINE : </h1>
         <br></br>
         <h5>Valeur actuelle du patrimoine : {patrimoineActuel + " Ariary"}</h5>
         <br></br>
@@ -144,7 +144,7 @@ export default function Patrimoine() {
       </section>
 
       <section className="patrimoine">
-        <h1>Évolution de la valeur du patrimoine : </h1>
+        <h1>ÉVOLUTION DE LA VALEUR DU PATRIMOINE : </h1>
         <label>Date début : </label>
         <input type="date" name="dateDebut" value={rangeDates.dateDebut} onChange={changerRangeDates} />
         <br />
