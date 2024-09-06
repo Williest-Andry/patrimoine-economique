@@ -7,5 +7,6 @@ node app.js
 
 cd UI
 npm install
+
 cd UI/src
 npm run dev
