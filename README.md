@@ -5,10 +5,10 @@ cd backend
 node app.js
 
 
-cd UI
-npm install
+- cd UI
+- npm install
 
-cd UI/src
-npm run dev
+- cd UI/src
+- npm run dev
 
-*SI L'APPLICATION AVEC LE BACKEND DEPLOYÉ NE MARCHE PAS, IL FAUT REVENIR AU COMMIT : f58f4e0 fix: edit data.json after the demonstration video*
+*POUR ÉXÉCUTER L'APPLICATION EN LOCAL, IL FAUT REVENIR AU COMMIT : f58f4e0 fix: edit data.json after the demonstration video*
